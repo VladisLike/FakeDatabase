@@ -1,0 +1,17 @@
+{
+    "name": "sollent/1",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/",
+            "Core\\": "core/"
+        }
+    },
+    "authors": [
+        {
+            "name": "sollent",
+            "email": "pavel.laikov98@gmail.com"
+        }
+    ],
+    "require": {}
+}
