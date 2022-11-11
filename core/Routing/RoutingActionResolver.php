@@ -20,14 +20,25 @@ class RoutingActionResolver implements RoutingActionResolverInterface
      */
     public function resolveAction(string $uri)
     {
-        $controllerName = $this->generateClassName->getClassName($uri, 'Controller');
-        $repositoryName = $this->generateClassName->getClassName($uri, 'Repository');
+        $partUri = explode('/', $uri);
+
+        $controllerName = $this->generateClassName->getClassName($partUri[0], 'Controller');
+        $repositoryName = $this->generateClassName->getClassName($partUri[0], 'Repository');
 
         $reflectionController = new ReflectionClass($controllerName);
 
         /** @var AbstractController $controller */
         $controller = $reflectionController->newInstance(new $repositoryName());
 
-        $controller->showAll();
+        if (count($partUri) === 1) {
+            $controller->showAll();
+        } elseif (count($partUri) === 2) {
+            if ((int)$partUri[1] > $controller->getCount()) {
+                print_r('Not Found model!');
+            } else {
+                $controller->get($partUri[1]);
+            }
+        }
+        
     }
 }

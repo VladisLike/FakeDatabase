@@ -64,5 +64,10 @@ abstract class AbstractRepository implements RepositoryInterface
         return $isCompared;
     }
 
+    public function getAllModelCount(): int
+    {
+        return count($this->findAll());
+    }
+
     abstract function getModel(): string;
 }

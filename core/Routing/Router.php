@@ -17,7 +17,8 @@ class Router implements RouterInterface
     public function match(string $uri): bool
     {
         $result = false;
-        $className = $this->generateClassName->getClassName($uri, 'Controller');
+
+        $className = $this->generateClassName->getClassName(explode('/', $uri)[1], 'Controller');
 
         if (class_exists($className)) {
             $result = true;
