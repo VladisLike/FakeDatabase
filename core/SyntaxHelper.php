@@ -8,4 +8,5 @@ final class SyntaxHelper
     {
         return strtolower(preg_replace('/(?<!^)[A-Z]/', '_$0', $input));
     }
+
 }

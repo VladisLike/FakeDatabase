@@ -14,15 +14,19 @@ final class ProductController extends AbstractController
         $this->repository = $repository;
     }
 
-    public function run()
+    public function showAll()
     {
-//        var_dump($this->repository->findBy([
-//            'discount' => 8,
-//            'in_stock' => true,
-//        ]));
-        var_dump($this->repository->find(1));
-
+        var_dump($this->repository->findAll());
     }
 
+    public function product(int $id)
+    {
+        var_dump($this->repository->find($id));
+    }
+
+    public function productBy(array $criteria)
+    {
+        var_dump($this->repository->findBy($criteria));
+    }
 
 }

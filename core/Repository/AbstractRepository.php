@@ -3,76 +3,23 @@
 namespace Core\Repository;
 
 use Core\Common\Model;
-use Core\SyntaxHelper;
-use ReflectionClass;
+use Core\Service\RepositoryService\ObjectManager;
+use Core\Service\RepositoryService\ObjectManagerInterface;
 
 abstract class AbstractRepository implements RepositoryInterface
 {
-    private array $data;
-    private ReflectionClass $targetClass;
+    private ObjectManagerInterface $objectManager;
 
     public function __construct()
     {
-        $reflection = new ReflectionClass($this->getModel());
-        $this->data = $this->getDataByClass($reflection);
-        $this->targetClass = $reflection;
-    }
-
-    private function getDataByClass(ReflectionClass $reflection): array
-    {
-        return require PATH . '/src/data/' .
-            \strtolower($reflection->getShortName()) . 's.php';
-    }
-
-    private function determineInstanceArguments(array $item): array
-    {
-        $classProperties = $this->targetClass->getProperties();
-        return \array_map(function (\ReflectionProperty $property) use ($item) {
-            $this->propertyAnalyses(
-                $formattedProperty = SyntaxHelper::camelToSnake($property->getName()),
-                $item
-            );
-            return $item[$formattedProperty];
-        }, $classProperties);
-    }
-
-    private function propertyAnalyses(string $property, array &$item): void
-    {
-        if (!\is_array($item[$property])) {
-            return;
-        }
-
-        $objectIds = $item[$property];
-        $className = \ucfirst(\implode('', \array_slice(
-            $explodedProperty = \str_split($property),
-            0,
-            \count($explodedProperty) - 1
-        )));
-
-        $reflection = new ReflectionClass("App\\Model\\$className");
-
-        $classes = [];
-        $oldReflection = $this->targetClass;
-        $oldDate = $this->data;
-        $this->targetClass = $reflection;
-        $this->data = $this->getDataByClass($reflection);
-
-        foreach ($objectIds as $objectId) {
-            $classes[] = $this->find($objectId);
-        }
-
-        $this->targetClass = $oldReflection;
-        $this->data = $oldDate;
-
-        $item[$property] = $classes;
+        $this->objectManager = new ObjectManager($this);
     }
 
     public function find(int $id): ?Model
     {
-        foreach ($this->data as $item) {
+        foreach ($this->objectManager->getData() as $item) {
             if ($item['id'] === $id) {
-                $arguments = $this->determineInstanceArguments($item);
-                return $this->targetClass->newInstance(...$arguments);
+                return $this->objectManager->getObject($item);
             }
         }
 
@@ -83,9 +30,8 @@ abstract class AbstractRepository implements RepositoryInterface
     {
         $models = [];
 
-        foreach ($this->data as $item) {
-            $properties = $this->determineInstanceArguments($item);
-            $models[] = $this->targetClass->newInstance(...$properties);
+        foreach ($this->objectManager->getData() as $item) {
+            $models[] = $this->objectManager->getObject($item);
         }
 
         return $models;
@@ -95,10 +41,9 @@ abstract class AbstractRepository implements RepositoryInterface
     {
         $models = [];
 
-        foreach ($this->data as $item) {
+        foreach ($this->objectManager->getData() as $item) {
             if ($this->determineItemCompareWith($item, $criteria)) {
-                $properties = $this->determineInstanceArguments($item);
-                $models[] = $this->targetClass->newInstance(...$properties);
+                $models[] = $this->objectManager->getObject($item);
             }
         }
 
