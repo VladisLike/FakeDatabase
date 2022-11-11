@@ -14,12 +14,20 @@ final class UserController extends AbstractController
         $this->repository = $repository;
     }
 
-    public function run()
+    public function showAll()
     {
-        var_dump($this->repository->findAll());
-//        var_dump($this->repository->findBy([
-//            'last_name' => 'Ivanov',
-//            'active' => true
-//        ]));
+        print_r($this->repository->findAll());
     }
+
+    public function get(int $id)
+    {
+        print_r($this->repository->find($id));
+    }
+
+    public function getBy(array $criteria)
+    {
+        print_r($this->repository->findBy($criteria));
+    }
+
+
 }

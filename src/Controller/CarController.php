@@ -2,25 +2,30 @@
 
 namespace App\Controller;
 
-use App\Repository\CarRepository;
 use Core\Common\AbstractController;
-use Core\Common\Model;
 use Core\Repository\AbstractRepository;
 
 class CarController extends AbstractController
 {
-    private AbstractRepository $carRepository;
+    private AbstractRepository $repository;
 
-    /**
-     * @param AbstractRepository $carRepository
-     */
-    public function __construct(AbstractRepository $carRepository)
+    public function __construct(AbstractRepository $repository)
     {
-        $this->carRepository = $carRepository;
+        $this->repository = $repository;
     }
 
-    public function index(int $id): Model
+    public function showAll()
     {
-        return $this->carRepository->find($id);
+        print_r($this->repository->findAll());
+    }
+
+    public function get(int $id)
+    {
+        print_r($this->repository->find($id));
+    }
+
+    public function getBy(array $criteria)
+    {
+        print_r($this->repository->findBy($criteria));
     }
 }
