@@ -6,7 +6,6 @@ use Core\Request\Request;
 use Core\Response\Response;
 use Core\Routing\RouterInterface;
 use Core\Routing\RoutingActionResolverInterface;
-use http\Exception\BadUrlException;
 
 class Kernel
 {
@@ -23,11 +22,13 @@ class Kernel
     public function run(Request $request, array $config): ?Response
     {
         $response = null;
+
         if ($this->router->match($request->getUri())) {
             $this->routingActionResolver->resolveAction($request->getUri());
         } else {
-            throw new BadUrlException();
+            print_r('Not Found Route!');
         }
+
         return $response;
     }
 }
