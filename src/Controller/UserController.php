@@ -16,17 +16,17 @@ final class UserController extends AbstractController
 
     public function showAll()
     {
-        print_r($this->repository->findAll());
+        dump($this->repository->findAll());
     }
 
     public function get(int $id)
     {
-        print_r($this->repository->find($id));
+        dump($this->repository->find($id));
     }
 
     public function getBy(array $criteria)
     {
-        print_r($this->repository->findBy($criteria));
+        dump($this->repository->findBy($criteria));
     }
 
 

@@ -21,4 +21,6 @@ class Request
         return $this->params['REQUEST_URI'];
     }
 
+
+
 }

@@ -24,7 +24,7 @@ class Kernel
         $response = null;
 
         if ($this->router->match($request->getUri())) {
-            $this->routingActionResolver->resolveAction($request->getUri());
+            $this->routingActionResolver->resolveAction(trim($request->getUri(), '/'));
         } else {
             print_r('Not Found Route!');
         }

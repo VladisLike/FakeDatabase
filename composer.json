@@ -13,5 +13,7 @@
             "email": "pavel.laikov98@gmail.com"
         }
     ],
-    "require": {}
+    "require-dev": {
+        "symfony/var-dumper": "^5.4"
+    }
 }
