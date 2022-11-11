@@ -29,5 +29,10 @@ final class UserController extends AbstractController
         dump($this->repository->findBy($criteria));
     }
 
+    public function getCount(): int
+    {
+        return $this->repository->getAllModelCount();
+    }
+
 
 }

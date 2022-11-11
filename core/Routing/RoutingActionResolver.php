@@ -33,7 +33,12 @@ class RoutingActionResolver implements RoutingActionResolverInterface
         if (count($partUri) === 1) {
             $controller->showAll();
         } elseif (count($partUri) === 2) {
-            $controller->get($partUri[1]);
+            if ((int)$partUri[1] > $controller->getCount()) {
+                print_r('Not Found model!');
+            } else {
+                $controller->get($partUri[1]);
+            }
         }
+        
     }
 }
