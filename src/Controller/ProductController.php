@@ -16,17 +16,17 @@ final class ProductController extends AbstractController
 
     public function showAll()
     {
-        var_dump($this->repository->findAll());
+        print_r($this->repository->findAll());
     }
 
-    public function product(int $id)
+    public function get(int $id)
     {
-        var_dump($this->repository->find($id));
+        print_r($this->repository->find($id));
     }
 
-    public function productBy(array $criteria)
+    public function getBy(array $criteria)
     {
-        var_dump($this->repository->findBy($criteria));
+        print_r($this->repository->findBy($criteria));
     }
 
 }

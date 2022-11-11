@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use Core\Common\AbstractController;
-use Core\Common\Model;
 use Core\Repository\AbstractRepository;
 
 class CarController extends AbstractController
@@ -17,16 +16,16 @@ class CarController extends AbstractController
 
     public function showAll()
     {
-        var_dump($this->repository->findAll());
+        print_r($this->repository->findAll());
     }
 
-    public function car(int $id)
+    public function get(int $id)
     {
-        var_dump($this->repository->find($id));
+        print_r($this->repository->find($id));
     }
 
-    public function carBy(array $criteria)
+    public function getBy(array $criteria)
     {
-        var_dump($this->repository->findBy($criteria));
+        print_r($this->repository->findBy($criteria));
     }
 }
