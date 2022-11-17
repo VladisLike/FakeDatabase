@@ -5,7 +5,7 @@ namespace App\Controller;
 use Core\Common\AbstractController;
 use Core\Repository\AbstractRepository;
 
-final class CarController extends AbstractController
+final class PostController extends AbstractController
 {
     private AbstractRepository $repository;
 
